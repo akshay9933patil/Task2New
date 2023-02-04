@@ -5,17 +5,23 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from .permissions import IsOwnerPermission
 
 
 class BlogCreateAPIView(APIView):
+
+    serializer_class = BlogSerializer
+    model_class = BlogModel
+    permission_classes = [IsOwnerPermission]
+    authentication_classes = [JWTAuthentication]
     
     def get(self, request):
-        obj = BlogModel.objects.all()
-        serializer = BlogSerializer(obj, many=True)
+        fetched = self.model_class.objects.all()
+        serializer = self.serializer_class(fetched, many=True)
         return Response(data=serializer.data)
 
     def post(self, request):
-        serializer = BlogSerializer(data=request.data, context=request)
+        serializer = self.serializer_class(data=request.data, context={'request':request})
         if serializer.is_valid():
             serializer.save()
             return Response(data=serializer.data)
@@ -25,5 +31,5 @@ class BlogCreateAPIView(APIView):
 class BlogGenericView(RetrieveUpdateDestroyAPIView):
     serializer_class = BlogSerializer
     queryset = BlogModel.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsOwnerPermission]
     authentication_classes = [JWTAuthentication]
