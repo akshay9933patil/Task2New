@@ -3,6 +3,8 @@ from .serializers import BlogSerializer, BlogModel
 from rest_framework.views import APIView
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 class BlogCreateAPIView(APIView):
@@ -23,5 +25,5 @@ class BlogCreateAPIView(APIView):
 class BlogGenericView(RetrieveUpdateDestroyAPIView):
     serializer_class = BlogSerializer
     queryset = BlogModel.objects.all()
-    permission_classes = []
-    authentication_classes = []
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
