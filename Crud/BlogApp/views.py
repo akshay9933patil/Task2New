@@ -33,3 +33,5 @@ class BlogGenericView(RetrieveUpdateDestroyAPIView):
     queryset = BlogModel.objects.all()
     permission_classes = [IsOwnerPermission]
     authentication_classes = [JWTAuthentication]
+
+

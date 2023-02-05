@@ -33,3 +33,14 @@ class IsOwnerPermission(permissions.BasePermission):
 # 1st it will check whether user is admin or not
 # if user is not admin it will check whether the request.user is owner of the post
 # line number 22 request.user is converted to string as type class of request.user is not string
+
+
+""" 
+1. function based API
+2. Classs Based API
+3. Generic API --> CreateAPIView, ListApiView, ,
+                   CreateListAPIVIew, 
+                   RetrieveAPIView UpdateAPIView, RetrieveUpdateAPIView, RetrievUpdateDetroyAPIView
+
+4. Viewsets
+"""
